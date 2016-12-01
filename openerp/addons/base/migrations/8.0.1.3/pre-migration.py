@@ -47,3 +47,22 @@ def migrate(cr, version):
         cr, 'ir_ui_view', 'type', [
             'calendar', 'diagram', 'form', 'gantt', 'graph', 'kanban',
             'qweb', 'search', 'tree'])
+    openupgrade.logged_query(
+        cr, """
+        UPDATE ir_attachment
+        SET res_model = 'product.template'
+        WHERE res_model = 'product.product';
+        """)
+    openupgrade.logged_query(
+        cr, """
+        UPDATE ir_attachment
+        SET res_model = 'stock.picking'
+        WHERE res_model = 'stock.picking.out';
+        """)
+    openupgrade.logged_query(
+        cr, """
+        UPDATE ir_attachment
+        SET res_model = 'stock.picking'
+        WHERE res_model = 'stock.picking.in';
+        """)
+    
